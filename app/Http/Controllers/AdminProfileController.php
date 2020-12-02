@@ -5,19 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 
-class UserProfileController extends Controller
+class AdminProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
-        // return 'test';
-        $profiles = Profile::all();
-
-        return view('user.index')->with('profiles', $profiles);
+        $members = Profile::all();
+        return view('admin.profile.index')->with('members', $members);
     }
 
     /**
@@ -27,7 +26,7 @@ class UserProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.profile.create');
     }
 
     /**
@@ -38,7 +37,13 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $member = new Profile;
+        $member->name = $request->input('name');
+        $member->nickname = $request->input('nickname');
+        $member->details = $request->input('details');
+        $member->save();
+
+        return redirect('admin/profile')->with('success', 'member successfully created !!');
     }
 
     /**
@@ -47,11 +52,9 @@ class UserProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($name)
+    public function show($id)
     {
-
-
-        return $name;
+        //
     }
 
     /**
@@ -62,7 +65,8 @@ class UserProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        $member = Profile::find($id);
+        return view('admin.profile.edit')->with('member', $member);
     }
 
     /**
@@ -74,7 +78,13 @@ class UserProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $member = Profile::find($id);
+        $member->name = $request->input('name');
+        $member->nickname = $request->input('nickname');
+        $member->details = $request->input('details');
+        $member->save();
+
+        return redirect('admin/profile')->with('success', 'member successfully updated !!');
     }
 
     /**
@@ -85,6 +95,9 @@ class UserProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $member = Profile::find($id);
+        $member->delete();
+
+        return redirect('admin/profile')->with('success', 'member successfully deleted');
     }
 }
