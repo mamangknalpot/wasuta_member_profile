@@ -18,6 +18,7 @@ class CreateProfilesTable extends Migration
             $table->string('name')->nullable();
             $table->string('nickname')->nullable();
             $table->text('details')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
