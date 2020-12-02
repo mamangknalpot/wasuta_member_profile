@@ -37,13 +37,29 @@ class AdminProfileController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'image' => 'image|max:1999'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time() . $request->file('image')->getClientOriginalName();
+            $request->file('image')->move(storage_path('app/public/images'), $imageName);
+        } else {
+            $imageName = null;
+        }
+
+
         $member = new Profile;
         $member->name = $request->input('name');
         $member->nickname = $request->input('nickname');
         $member->details = $request->input('details');
+        $member->image = $imageName;
         $member->save();
 
-        return redirect('admin/profile')->with('success', 'member successfully created !!');
+        return redirect('admin')
+            ->with('success', 'member successfully created !!');
     }
 
     /**
@@ -65,8 +81,10 @@ class AdminProfileController extends Controller
      */
     public function edit($id)
     {
+        $members = Profile::all();
         $member = Profile::find($id);
-        return view('admin.profile.edit')->with('member', $member);
+        return view('admin.profile.edit')
+            ->with('member', $member);
     }
 
     /**
@@ -78,13 +96,28 @@ class AdminProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'image' => 'image|max:1999'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time() . $request->file('image')->getClientOriginalName();
+            $request->file('image')->move(storage_path('app/public/images'), $imageName);
+        } else {
+            $imageName = null;
+        }
+
         $member = Profile::find($id);
         $member->name = $request->input('name');
         $member->nickname = $request->input('nickname');
         $member->details = $request->input('details');
+        $member->image = $imageName;
         $member->save();
 
-        return redirect('admin/profile')->with('success', 'member successfully updated !!');
+        return redirect('admin')
+            ->with('success', 'member successfully updated !!');
     }
 
     /**
@@ -95,9 +128,11 @@ class AdminProfileController extends Controller
      */
     public function destroy($id)
     {
+
         $member = Profile::find($id);
         $member->delete();
 
-        return redirect('admin/profile')->with('success', 'member successfully deleted');
+        return redirect('admin')
+            ->with('success', 'member successfully deleted');
     }
 }

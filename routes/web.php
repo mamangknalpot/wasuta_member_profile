@@ -24,4 +24,4 @@ Route::get('/', [App\Http\Controllers\UserProfileController::class, 'index'])->n
 Route::get('/home', [App\Http\Controllers\UserProfileController::class, 'index'])->name('home');
 Route::get('/profile/{name}', [App\Http\Controllers\UserProfileController::class, 'show'])->name('user.profile');
 
-Route::resource('admin/profile', AdminProfileController::class, ['as' => 'admin']);
+Route::resource('admin', AdminProfileController::class);

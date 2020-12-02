@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Profile;
 
 class UserProfileController extends Controller
@@ -49,9 +50,14 @@ class UserProfileController extends Controller
      */
     public function show($name)
     {
-
-
-        return $name;
+        $profiles = Profile::all();
+        $profile = DB::table('profiles')
+            ->where('profiles.name', '=', $name)
+            ->get()
+            ->first();
+        // return $profile;
+        return view('user.profile')->with('profiles', $profiles)->with('profile', $profile);
+        // return $name;
     }
 
     /**

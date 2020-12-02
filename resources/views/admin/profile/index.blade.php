@@ -5,10 +5,9 @@
 <div class="container">
     <div class="row mt-5 justify-content-center">
         <div class="col-md-8">
-            <a href="{{route('admin.profile.create')}}">
+            <a href="{{route('admin.create')}}">
             <button class="btn btn-primary mb-5">Add wasuta member + </button>
             </a>
-            
             
             <table class="table table-bordered" style="overflow-x: auto;">
                 <thead>
@@ -23,10 +22,12 @@
                         <tr>
                             <th scope="row"> {{$member->name}} </th>
                             <td>{{$member->nickname}}</td>
-                            <td><button class="btn btn-primary">View</button></td>
-                            <td> <a href="{{route('admin.profile.edit', $member->id)}}"><button class="btn btn-warning">Edit</button></a> </td>
+                            <td> <a href="{{route('user.profile', $member->name)}}">
+                                <button class="btn btn-primary">View</button></a>
+                            </td>
+                            <td> <a href="{{route('admin.edit', $member->id)}}"><button class="btn btn-warning">Edit</button></a> </td>
                             <td>
-                                <form action="{{route('admin.profile.destroy', $member->id)}}" method="post">
+                                <form action="{{route('admin.destroy', $member->id)}}" method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-danger">Delete</button>

@@ -7,12 +7,13 @@
 <div class="container mb-5">
     <div class="row mt-5 justify-content-center">
         <div class="col-md-8">
+            @include('inc.messages')
             <h5 class="mb-5">Create New Member</h5>
-            <form action="{{route('admin.profile.store')}}" method="POST">
+            <form action="{{route('admin.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input class="form-control" id="name" name="name" type="text">
+                    <input required class="form-control" id="name" name="name" type="text">
                 </div>
                 <div class="form-group">
                     <label for="name">Nickname</label>
@@ -22,7 +23,13 @@
                     <label for="name">Details</label>
                     <textarea name="details" class="summernote"></textarea>
                 </div>
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <div class="form-group">
+                    <label for="name">Image</label>
+                    <br>
+                    <input type="file" name="image">
+                </div>
+
+                <button class="btn btn-primary mt-3" type="submit">Submit</button>
             </form>
         </div>
     </div>
