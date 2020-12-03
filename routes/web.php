@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\UserProfileController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\UserProfileController::class, 'index'])->name('home');
+Route::get('/profile/{name}', [App\Http\Controllers\UserProfileController::class, 'show'])->name('user.profile');
+
+Route::resource('admin', AdminProfileController::class);
